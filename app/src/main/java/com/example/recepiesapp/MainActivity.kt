@@ -1,0 +1,87 @@
+package com.example.recepiesapp
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.recepiesapp.databinding.ActivityMainBinding
+import androidx.appcompat.widget.SearchView
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var recipesAdapter: RecipesAdapter
+    private lateinit var recipeRepository: RecipeRepository
+    private var recipes: MutableList<Recipe> = mutableListOf()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        recipeRepository = RecipeRepository(this)
+        recipes = recipeRepository.loadRecipes()
+        recipesAdapter = RecipesAdapter { selectedRecipe ->
+            val intent = Intent(this, RecipeDetailActivity::class.java).apply {
+                putExtra("RECIPE", selectedRecipe)
+            }
+            startActivity(intent)
+        }
+
+        setupRecyclerView()
+        setupSearch()
+        setupAddButton()
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerViewRecipes.layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewRecipes.adapter = recipesAdapter
+        recipesAdapter.submitList(recipes)
+    }
+
+    private fun setupSearch() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchRecipes(query ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchRecipes(newText ?: "")
+                return true
+            }
+        })
+    }
+
+    private fun searchRecipes(query: String) {
+        val filteredRecipes = if (query.isEmpty()) {
+            recipes // Показать все рецепты, если строка пуста
+        } else {
+            recipes.filter { recipe ->
+                recipe.title.contains(query, ignoreCase = true) ||
+                        recipe.ingredients.any { it.contains(query, ignoreCase = true) } ||
+                        recipe.tags.any { it.contains(query, ignoreCase = true) }
+            }
+        }
+        recipesAdapter.submitList(filteredRecipes)
+    }
+
+    private fun setupAddButton() {
+        binding.btnAddRecipe.setOnClickListener {
+            val intent = Intent(this, AddRecipeActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    fun addRecipe(newRecipe: Recipe) {
+        recipes.add(newRecipe)
+        recipesAdapter.submitList(recipes)
+        recipeRepository.saveRecipes(recipes)
+        Log.d("RecipesApp Add", "Рецепт добавлен и сохранён: $newRecipe")
+    }
+}
