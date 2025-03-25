@@ -18,6 +18,7 @@ class RecipeDetailActivity : AppCompatActivity() {
         } ?: return
 
         findViewById<TextView>(R.id.tvTitle).text = recipe.title
+        findViewById<TextView>(R.id.tvDescription).text = "Описание:\n${recipe.description}"
         findViewById<TextView>(R.id.tvIngredients).text = "Ингредиенты:\n${recipe.ingredients.joinToString("\n")}"
         findViewById<TextView>(R.id.tvInstructions).text = "Инструкции:\n${recipe.instructions}"
         findViewById<TextView>(R.id.tvTags).text = "Теги:\n${recipe.tags.joinToString("\n")}"

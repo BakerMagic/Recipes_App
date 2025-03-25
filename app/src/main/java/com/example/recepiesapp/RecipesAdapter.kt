@@ -23,7 +23,7 @@ class RecipesAdapter(
         fun bind(recipe: Recipe) {
             binding.tvTitle.text = recipe.title
             binding.tvIngredients.text = "Ингредиенты:\n${recipe.ingredients.joinToString("\n")}"
-            binding.tvInstructions.text = "Инструкции:\n${recipe.instructions}"
+            binding.tvDescription.text = "Описание:\n${recipe.description}" // Заменил инструкции на описание
             binding.tvTags.text = "Теги:\n${recipe.tags.joinToString("\n")}"
         }
     }

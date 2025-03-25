@@ -1,6 +1,7 @@
 package com.example.recepiesapp
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RecipeDetailActivity::class.java).apply {
                 putExtra("RECIPE", selectedRecipe)
             }
+            Log.d("RecipesApp Add", "ТЕСТ")
+
             startActivity(intent)
         }
 
@@ -71,16 +74,33 @@ class MainActivity : AppCompatActivity() {
         recipesAdapter.submitList(filteredRecipes)
     }
 
+    @Suppress("DEPRECATION")
     private fun setupAddButton() {
         binding.btnAddRecipe.setOnClickListener {
             val intent = Intent(this, AddRecipeActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 1)
+        }
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && data != null) {
+            val newRecipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                data.getSerializableExtra("NEW_RECIPE", Recipe::class.java)
+            }
+            else {
+                @Suppress("DEPRECATION")
+                data.getSerializableExtra("NEW_RECIPE") as? Recipe
+            }
+            newRecipe?.let { addRecipe(it) }
         }
     }
 
     fun addRecipe(newRecipe: Recipe) {
         recipes.add(newRecipe)
-        recipesAdapter.submitList(recipes)
+        recipesAdapter.submitList(recipes.toMutableList())
         recipeRepository.saveRecipes(recipes)
         Log.d("RecipesApp Add", "Рецепт добавлен и сохранён: $newRecipe")
     }

@@ -58,6 +58,7 @@ class AddRecipeActivity : AppCompatActivity() {
 
     private fun saveRecipe() {
         val title = findViewById<EditText>(R.id.etTitle).text.toString().trim()
+        val description = findViewById<EditText>(R.id.etDescription).text.toString().trim()
         val instructions = findViewById<EditText>(R.id.etInstructions).text.toString().trim()
         val tags = findViewById<EditText>(R.id.etTags).text.toString().split(",").map { it.trim() }.filter { it.isNotEmpty() }
 
@@ -77,15 +78,21 @@ class AddRecipeActivity : AppCompatActivity() {
                 id = generateUniqueId(),
                 title = title,
                 ingredients = ingredients,
+                description = description,
                 instructions = instructions,
                 tags = tags
             )
 
             // Передача нового рецепта в MainActivity
-            val intent = Intent().apply {
-                putExtra("NEW_RECIPE", newRecipe)
-            }
-            setResult(RESULT_OK, intent)
+//            val intent = Intent().apply {
+//                putExtra("NEW_RECIPE", newRecipe)
+//            }
+
+            val resultIntent = Intent()
+            resultIntent.putExtra("NEW_RECIPE", newRecipe)
+            setResult(RESULT_OK, resultIntent)
+
+//            setResult(RESULT_OK, intent)
             finish()
         } else {
             Log.e("AddRecipeActivity", "Некорректные данные рецепта")
