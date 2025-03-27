@@ -7,7 +7,9 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class AddRecipeActivity : AppCompatActivity() {
@@ -52,6 +54,14 @@ class AddRecipeActivity : AppCompatActivity() {
         val quantityEditText = ingredientView.findViewById<EditText>(R.id.etQuantity)
         val unitEditText = ingredientView.findViewById<EditText>(R.id.etUnit)
 
+        val removeButton = ingredientView.findViewById<ImageButton>(R.id.btnRemove)
+
+        // Добавление обработчика для кнопки удаления
+        removeButton.setOnClickListener {
+            ingredientsLayout.removeView(ingredientView) // удаляем вид
+            ingredientsFields.removeIf { it.first == autoCompleteTextView } // удаляем из списка
+        }
+
         ingredientsLayout.addView(ingredientView)
         ingredientsFields.add(Triple(autoCompleteTextView, quantityEditText, unitEditText))
     }
@@ -83,18 +93,12 @@ class AddRecipeActivity : AppCompatActivity() {
                 tags = tags
             )
 
-            // Передача нового рецепта в MainActivity
-//            val intent = Intent().apply {
-//                putExtra("NEW_RECIPE", newRecipe)
-//            }
-
             val resultIntent = Intent()
             resultIntent.putExtra("NEW_RECIPE", newRecipe)
             setResult(RESULT_OK, resultIntent)
-
-//            setResult(RESULT_OK, intent)
             finish()
         } else {
+            Toast.makeText(this, "Некорректные данные рецепта", Toast.LENGTH_SHORT).show()
             Log.e("AddRecipeActivity", "Некорректные данные рецепта")
         }
     }

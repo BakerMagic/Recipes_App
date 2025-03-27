@@ -104,4 +104,13 @@ class MainActivity : AppCompatActivity() {
         recipeRepository.saveRecipes(recipes)
         Log.d("RecipesApp Add", "Рецепт добавлен и сохранён: $newRecipe")
     }
+
+    fun getDescriptionPreview(description: String): String {
+        return if (description.length > 200) {
+            description.substring(0, 200) + "..."
+        }
+        else {
+            description
+        }
+    }
 }
