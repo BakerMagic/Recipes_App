@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Recipes App</string>
+    <string name="unit_prompt">Выберите единицу измерения</string>
 </resources>

@@ -3,12 +3,16 @@ package com.example.recepiesapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -16,7 +20,8 @@ class AddRecipeActivity : AppCompatActivity() {
 
     private lateinit var ingredientsLayout: LinearLayout
     private lateinit var ingredientsList: List<String>
-    private var ingredientsFields: MutableList<Triple<AutoCompleteTextView, EditText, EditText>> = mutableListOf()
+    private lateinit var units: List<String>
+    private var ingredientsFields: MutableList<Triple<AutoCompleteTextView, EditText, Spinner>> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +31,10 @@ class AddRecipeActivity : AppCompatActivity() {
         ingredientsList = listOf(
             "мука", "яйца", "соль", "сахар", "масло", "молоко",
             "картофель", "лук", "помидоры", "чеснок", "рис", "капуста"
+        )
+
+        units = listOf(
+            "г", "кг", "мл", "л", "ч.л.", "ст.л.", "щепотка", "шт"
         )
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, ingredientsList)
@@ -52,18 +61,25 @@ class AddRecipeActivity : AppCompatActivity() {
         autoCompleteTextView.setAdapter(adapter)
 
         val quantityEditText = ingredientView.findViewById<EditText>(R.id.etQuantity)
-        val unitEditText = ingredientView.findViewById<EditText>(R.id.etUnit)
+        val unitSpinner = ingredientView.findViewById<Spinner>(R.id.spUnit)
+
+        // настройка выпадающего списка для единиц измерения
+        val unitAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, units)
+        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        unitSpinner.adapter = unitAdapter
+
+        unitSpinner.setSelection(0)
 
         val removeButton = ingredientView.findViewById<ImageButton>(R.id.btnRemove)
 
         // Добавление обработчика для кнопки удаления
-        removeButton.setOnClickListener {
+        removeButton?.setOnClickListener {
             ingredientsLayout.removeView(ingredientView) // удаляем вид
             ingredientsFields.removeIf { it.first == autoCompleteTextView } // удаляем из списка
         }
 
         ingredientsLayout.addView(ingredientView)
-        ingredientsFields.add(Triple(autoCompleteTextView, quantityEditText, unitEditText))
+        ingredientsFields.add(Triple(autoCompleteTextView, quantityEditText, unitSpinner))
     }
 
     private fun saveRecipe() {
@@ -75,8 +91,8 @@ class AddRecipeActivity : AppCompatActivity() {
         val ingredients = ingredientsFields.mapNotNull { (ingredient, quantity, unit) ->
             val ingredientText = ingredient.text.toString().trim()
             val quantityText = quantity.text.toString().trim()
-            val unitText = unit.text.toString().trim()
-            if (ingredientText.isNotEmpty() && quantityText.isNotEmpty() && unitText.isNotEmpty()) {
+            val unitText = (unit as Spinner).selectedItem.toString()
+            if (ingredientText.isNotEmpty() && quantityText.isNotEmpty()) {
                 "$ingredientText $quantityText $unitText"
             } else {
                 null
@@ -93,8 +109,9 @@ class AddRecipeActivity : AppCompatActivity() {
                 tags = tags
             )
 
-            val resultIntent = Intent()
-            resultIntent.putExtra("NEW_RECIPE", newRecipe)
+            val resultIntent = Intent().apply {
+                putExtra("NEW_RECIPE", newRecipe)
+            }
             setResult(RESULT_OK, resultIntent)
             finish()
         } else {
