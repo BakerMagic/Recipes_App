@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Основные цвета -->
+    <color name="background">#F5F3E8</color> <!-- Мягкий светло-бежевый -->
+    <color name="primaryAccent">#D7A98C</color> <!-- Теплый терракотовый -->
+    <color name="secondaryAccent">#B5996F</color> <!-- Светло-янтарный -->
+    <color name="textPrimary">#3E3E3E</color> <!-- Темно-шоколадный -->
+<!--    <color name="errorColor">#FF6B6B</color> &lt;!&ndash; Мягкий томатный &ndash;&gt;-->
+    <color name="white">#FFFFFF</color> <!-- Белый -->
+    <color name="cardBackground">#FFFFFF</color> <!-- Белый -->
 </resources>

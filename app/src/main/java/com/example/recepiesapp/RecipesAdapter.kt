@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recepiesapp.databinding.ItemRecipeBinding
 
 class RecipesAdapter(
-    private val onItemClick: (Recipe) -> Unit // Добавлен параметр
+    private val onItemClick: (Recipe) -> Unit,
+    private val getDescriptionPreview: (String) -> String
 ) : ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder>(DiffCallback()) {
 
     class DiffCallback : DiffUtil.ItemCallback<Recipe>() {
@@ -23,7 +24,7 @@ class RecipesAdapter(
         fun bind(recipe: Recipe) {
             binding.tvTitle.text = recipe.title
             binding.tvIngredients.text = "Ингредиенты:\n${recipe.ingredients.joinToString("\n")}"
-            binding.tvDescription.text = "Описание:\n${recipe.description}" // Заменил инструкции на описание
+            binding.tvDescription.text = "Описание:\n${recipe.description}" // Доделать с обрезанием описания если оно большое
             binding.tvTags.text = "Теги:\n${recipe.tags.joinToString("\n")}"
         }
     }

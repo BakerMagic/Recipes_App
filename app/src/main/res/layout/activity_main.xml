@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.SearchView
@@ -16,7 +17,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Поиск по названию, ингредиентам или тегам"/>
+        android:hint="Поиск по названию, ингредиентам или тегам"
+        android:backgroundTint="@color/secondaryAccent"/>
 
     <Button
         android:id="@+id/btnAddRecipe"
@@ -25,7 +27,8 @@
         android:text="Добавить рецепт"
         app:layout_constraintTop_toBottomOf="@id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/primaryAccent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRecipes"
@@ -35,5 +38,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp"/>
+        android:padding="16dp"
+        android:background="@color/background"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

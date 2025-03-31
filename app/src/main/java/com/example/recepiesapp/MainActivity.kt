@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AnimationUtils
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,14 +28,24 @@ class MainActivity : AppCompatActivity() {
 
         recipeRepository = RecipeRepository(this)
         recipes = recipeRepository.loadRecipes()
-        recipesAdapter = RecipesAdapter { selectedRecipe ->
-            val intent = Intent(this, RecipeDetailActivity::class.java).apply {
-                putExtra("RECIPE", selectedRecipe)
-            }
-            Log.d("RecipesApp Add", "ТЕСТ")
+//        recipesAdapter = RecipesAdapter { selectedRecipe ->
+//            val intent = Intent(this, RecipeDetailActivity::class.java).apply {
+//                putExtra("RECIPE", selectedRecipe)
+//            }
+//            Log.d("RecipesApp Add", "ТЕСТ")
+//
+//            startActivity(intent)
+//        }
 
-            startActivity(intent)
-        }
+        recipesAdapter = RecipesAdapter(
+            onItemClick = { selectedRecipe ->
+                val intent = Intent(this, RecipeDetailActivity::class.java).apply {
+                    putExtra("RECIPE", selectedRecipe)
+                }
+                startActivity(intent)
+            },
+            getDescriptionPreview = ::getDescriptionPreview
+        )
 
         setupRecyclerView()
         setupSearch()
@@ -81,8 +92,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

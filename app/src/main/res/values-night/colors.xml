@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Основные цвета -->
+    <color name="background">#2E2A2A</color> <!-- Темно-шоколадный -->
+    <color name="primaryAccent">#B87333</color> <!-- Медный -->
+    <color name="secondaryAccent">#FFD79B</color> <!-- Светло-янтарный -->
+    <color name="textPrimary">#F0EAD6</color> <!-- Светло-бежевый -->
+<!--    <color name="errorColor">#8B0000</color> &lt;!&ndash; Тусклый бордовый &ndash;&gt;-->
+    <color name="cardBackground">#3E3A3A</color> <!-- Слегка затемненный -->
+</resources>
