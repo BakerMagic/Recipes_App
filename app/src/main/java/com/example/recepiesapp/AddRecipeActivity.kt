@@ -15,6 +15,8 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class AddRecipeActivity : AppCompatActivity() {
 
@@ -23,9 +25,23 @@ class AddRecipeActivity : AppCompatActivity() {
     private lateinit var units: List<String>
     private var ingredientsFields: MutableList<Triple<AutoCompleteTextView, EditText, Spinner>> = mutableListOf()
 
+    private lateinit var chipGroupTags: ChipGroup
+    private lateinit var etTagInput: EditText
+    private lateinit var btnAddTag: Button
+
+    private val tags = mutableListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_recipe)
+
+        chipGroupTags = findViewById(R.id.chipGroupTags)
+        etTagInput = findViewById(R.id.etTagInput)
+        btnAddTag = findViewById(R.id.btnAddTag)
+
+        btnAddTag.setOnClickListener {
+            addTag()
+        }
 
         ingredientsLayout = findViewById(R.id.ingredientsLayout)
         ingredientsList = listOf(
@@ -86,7 +102,9 @@ class AddRecipeActivity : AppCompatActivity() {
         val title = findViewById<EditText>(R.id.etTitle).text.toString().trim()
         val description = findViewById<EditText>(R.id.etDescription).text.toString().trim()
         val instructions = findViewById<EditText>(R.id.etInstructions).text.toString().trim()
-        val tags = findViewById<EditText>(R.id.etTags).text.toString().split(",").map { it.trim() }.filter { it.isNotEmpty() }
+
+//        val tags = findViewById<EditText>(R.id.etTags).text.toString().split(",").map { it.trim() }.filter { it.isNotEmpty() }
+        val recipeTags = tags.toList()
 
         val ingredients = ingredientsFields.mapNotNull { (ingredient, quantity, unit) ->
             val ingredientText = ingredient.text.toString().trim()
@@ -106,7 +124,7 @@ class AddRecipeActivity : AppCompatActivity() {
                 ingredients = ingredients,
                 description = description,
                 instructions = instructions,
-                tags = tags
+                tags = recipeTags
             )
 
             val resultIntent = Intent().apply {
@@ -123,5 +141,27 @@ class AddRecipeActivity : AppCompatActivity() {
     private fun generateUniqueId(): Int {
         // Генерация уникального ID
         return (System.currentTimeMillis() % 1000000).toInt()
+    }
+
+    private fun addTag() {
+        val tagText = "#" + etTagInput.text.toString().trim()
+        if (tagText.isNotEmpty()) {
+            tags.add(tagText)
+            createChip(tagText)
+            etTagInput.text.clear()
+        }
+    }
+
+    private fun createChip(tag: String) {
+        val chip = Chip(this).apply {
+            text = tag
+            isCloseIconVisible = true
+            setOnClickListener {
+                chipGroupTags.removeView(this)
+                tags.remove(tag)
+            }
+        }
+
+        chipGroupTags.addView(chip)
     }
 }
