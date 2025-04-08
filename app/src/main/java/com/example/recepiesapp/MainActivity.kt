@@ -4,14 +4,16 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recepiesapp.databinding.ActivityMainBinding
 import androidx.appcompat.widget.SearchView
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,17 +28,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setAppLanguage(getCurrentLanguage())
+
+        enableEdgeToEdge()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         recipeRepository = RecipeRepository(this)
         recipes = recipeRepository.loadRecipes()
-//        recipesAdapter = RecipesAdapter { selectedRecipe ->
-//            val intent = Intent(this, RecipeDetailActivity::class.java).apply {
-//                putExtra("RECIPE", selectedRecipe)
-//            }
-//            Log.d("RecipesApp Add", "ТЕСТ")
-//
-//            startActivity(intent)
-//        }
-
         recipesAdapter = RecipesAdapter(
             onItemClick = { selectedRecipe ->
                 val intent = Intent(this, RecipeDetailActivity::class.java).apply {
@@ -50,6 +49,16 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         setupSearch()
         setupAddButton()
+        setupSettings()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun setAppLanguage(language: String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun setupRecyclerView() {
@@ -121,5 +130,48 @@ class MainActivity : AppCompatActivity() {
         else {
             description
         }
+    }
+
+    private fun setupSettings() {
+        binding.ivSettings.setOnClickListener {
+            showSettingsDialog()
+        }
+    }
+
+    private fun showSettingsDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        val spLanguage = dialogView.findViewById<Spinner>(R.id.spLanguage)
+        val btnClose = dialogView.findViewById<ImageButton>(R.id.btnClose)
+        val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
+
+        val currentLanguage = getCurrentLanguage()
+        spLanguage.setSelection(if (currentLanguage == "en") 1 else 0)
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnSave.setOnClickListener {
+            val selectedLanguage = if (spLanguage.selectedItemPosition == 1) "en" else "ru"
+            saveLanguage(selectedLanguage)
+            recreate()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun saveLanguage(language: String) {
+        val sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE)
+        sharedPreferences.edit().putString("language", language).apply()
+    }
+
+    private fun getCurrentLanguage(): String {
+        val sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE)
+        return sharedPreferences.getString("language", "ru") ?: "ru"
     }
 }

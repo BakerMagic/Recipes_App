@@ -10,22 +10,43 @@
     android:background="@color/background"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/searchText"
-        android:backgroundTint="@color/secondaryAccent"/>
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="@string/searchText"
+            android:layout_weight="1"
+            android:backgroundTint="@color/secondaryAccent"/>
+
+        <ImageButton
+            android:id="@+id/ivSettings"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="@string/settings"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="end"
+            app:tint="@color/secondaryAccent" />
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/btnAddRecipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_recipe"
-        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp"
         android:backgroundTint="@color/primaryAccent"/>
