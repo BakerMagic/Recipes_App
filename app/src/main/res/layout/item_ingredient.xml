@@ -13,7 +13,6 @@
     android:backgroundTint="@color/cardBackground">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -23,7 +22,7 @@
             android:id="@+id/etIngredient"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:hint="Ингредиент"
+            android:hint="@string/ingredient_hint"
             android:completionThreshold="1"
             android:inputType="text"
             android:layout_weight="1"
@@ -34,7 +33,7 @@
             android:id="@+id/etQuantity"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:hint="Кол-во"
+            android:hint="@string/count_hint"
             android:inputType="numberDecimal"
             android:layout_weight="0.5"
             android:layout_marginEnd="8dp"
@@ -53,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@android:drawable/ic_menu_delete"
-            android:contentDescription="Удалить ингредиент"
+            android:contentDescription="@string/delete_ingredient_button"
             android:layout_gravity="center_vertical"/>
 
     </LinearLayout>

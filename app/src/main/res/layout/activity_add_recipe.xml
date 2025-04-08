@@ -17,7 +17,7 @@
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Название рецепта"
+            android:hint="@string/recipe_name"
             android:inputType="text"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -28,7 +28,7 @@
             android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Описание"
+            android:hint="@string/recipe_description"
             android:inputType="textMultiLine"
             android:minLines="4"
             android:gravity="top"
@@ -40,7 +40,7 @@
             android:id="@+id/etInstructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Инструкции"
+            android:hint="@string/recipe_instructions"
             android:inputType="textMultiLine"
             android:minLines="4"
             android:gravity="top"
@@ -74,7 +74,7 @@
                 android:id="@+id/etTagInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Введите тег"
+                android:hint="@string/tag_enter"
                 android:layout_weight="1"
                 android:inputType="text"/>
 
@@ -82,7 +82,7 @@
                 android:id="@+id/btnAddTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Добавить"/>
+                android:text="@string/add_tag_button"/>
 
         </LinearLayout>
 
@@ -97,7 +97,7 @@
             android:id="@+id/btnAddIngredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+ Добавить ингредиент"
+            android:text="@string/add_ingredient_button"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/primaryAccent"/>
@@ -106,7 +106,7 @@
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Сохранить"
+            android:text="@string/save_recipe_button"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/primaryAccent"/>

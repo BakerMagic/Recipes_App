@@ -1,5 +1,16 @@
 <resources>
-    <string name="app_name">Recipes App</string>
+    <string name="app_name" translatable="false">Recipes App</string>
     <string name="unit_prompt">Выберите единицу измерения</string>
     <string name="searchText">Поиск по названию, ингредиентам или тегам</string>
+    <string name="add_recipe">Добавить рецепт</string>
+    <string name="recipe_name">Название рецепта</string>
+    <string name="recipe_description">Описание</string>
+    <string name="recipe_instructions">Инструкции</string>
+    <string name="tag_enter">Введите тег</string>
+    <string name="add_tag_button">Добавить</string>
+    <string name="add_ingredient_button">+ Добавить ингредиент</string>
+    <string name="save_recipe_button">Сохранить</string>
+    <string name="ingredient_hint">Ингредиент</string>
+    <string name="count_hint">Кол-во</string>
+    <string name="delete_ingredient_button">Удалить ингредиент</string>
 </resources>

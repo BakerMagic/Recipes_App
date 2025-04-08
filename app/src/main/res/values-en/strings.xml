@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unit_prompt">Select the unit of measurement</string>
+    <string name="searchText">Search by name, ingredients, or tags</string>
+    <string name="add_recipe">Add a recipe</string>
+    <string name="recipe_name">Name of the recipe</string>
+    <string name="recipe_description">Description</string>
+    <string name="recipe_instructions">Instructions</string>
+    <string name="tag_enter">Enter the tag</string>
+    <string name="add_tag_button">Add</string>
+    <string name="add_ingredient_button">+ Add an ingredient</string>
+    <string name="save_recipe_button">Save</string>
+    <string name="ingredient_hint">Ingredient</string>
+    <string name="count_hint">Qnty</string>
+    <string name="delete_ingredient_button">Remove an ingredient</string>
+</resources>
