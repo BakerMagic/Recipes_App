@@ -147,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         val spLanguage = dialogView.findViewById<Spinner>(R.id.spLanguage)
         val btnClose = dialogView.findViewById<ImageButton>(R.id.btnClose)
         val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
+        val btnTermsOfUse = dialogView.findViewById<Button>(R.id.btnTermsOfUse)
 
         val currentLanguage = getCurrentLanguage()
         spLanguage.setSelection(if (currentLanguage == "en") 1 else 0)
@@ -162,7 +163,16 @@ class MainActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
+        btnTermsOfUse.setOnClickListener {
+            openTermsOfUse()
+        }
+
         dialog.show()
+    }
+
+    private fun openTermsOfUse() {
+        val intent = Intent(this, TermsOfUseActivity::class.java)
+        startActivity(intent)
     }
 
     private fun saveLanguage(language: String) {

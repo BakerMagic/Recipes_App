@@ -33,10 +33,18 @@
         android:prompt="@string/select_language_prompt"/>
 
     <Button
+        android:id="@+id/btnTermsOfUse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_of_use"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="8dp"/>
     
 </LinearLayout>

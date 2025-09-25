@@ -25,6 +25,7 @@
         <activity android:name=".AddRecipeActivity"
             android:launchMode="standard"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".TermsOfUseActivity"/>
     </application>
 
 </manifest>
